@@ -6,8 +6,9 @@ from intrinsic_value import calculate_intrinsic_values
 from fundamentals import get_fundamentals
 from valuation import get_valuation
 from time import sleep
+from api_key import API_KEY
 
-def run_stock_anlysis(ticker, mic):
+def run_stock_anlysis(ticker, mic, api_key):
     years_ahead = 5
     yearly_yield = 9
     print("start stock anlysis")
@@ -15,7 +16,7 @@ def run_stock_anlysis(ticker, mic):
     stock = Stock()
 
     ''' use API to get data '''
-    raw_stock_data = get_key_ratios(ticker, mic)
+    raw_stock_data = get_key_ratios(ticker, mic, api_key)
     stock.set_raw_stock_data(raw_stock_data)
 
     ''' check current ratio '''
@@ -37,12 +38,12 @@ def run_stock_anlysis(ticker, mic):
         print("intrinsic_value is {}".format(intrinsic_value))
     '''
     
-    stock_fundamentals = get_fundamentals(ticker, mic)
+    stock_fundamentals = get_fundamentals(ticker, mic, api_key)
     sleep(1) #need to sleep because of API limit
-    stock_valuation = get_valuation(ticker, mic)
+    stock_valuation = get_valuation(ticker, mic, api_key)
     intrinsic_value = calculate_intrinsic_values(stock_fundamentals , stock_valuation, years_ahead, yearly_yield)
     print("intrinsic_value is {}".format(intrinsic_value))
 
 
 if __name__ == "__main__":
-    run_stock_anlysis("csco", "XNAS")
+    run_stock_anlysis("csco", "XNAS", API_KEY)
